@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'json'
 require 'test/unit'
 require 'mocha/test_unit'
@@ -47,7 +49,7 @@ class HelloWorldTest < Test::Unit::TestCase
         stage: 'prod',
         requestId: 'c6af9ac6-7b61-11e6-9a41-93e8deadbeef',
         requestTime: '09/Apr/2015:12:34:56 +0000',
-        requestTimeEpoch: 1428582896000,
+        requestTimeEpoch: 1_428_582_896_000,
         identity: {
           cognitoIdentityPoolId: 'null',
           accountId: 'null',
@@ -89,6 +91,6 @@ class HelloWorldTest < Test::Unit::TestCase
 
   def test_lambda_handler
     HTTParty.expects(:get).with('http://checkip.amazonaws.com/').returns(mock_response)
-    assert_equal(lambda_handler(event: event, context: ''), expected_result)
+    assert_equal(lambda_handler(event:, context: ''), expected_result)
   end
 end

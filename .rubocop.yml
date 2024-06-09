@@ -3,3 +3,9 @@ require:
 
 AllCops:
   NewCops: enable
+Lint/UnusedMethodArgument:
+  Enabled: false
+Metrics/MethodLength:
+  Enabled: false
+Style/Documentation:
+  Enabled: false

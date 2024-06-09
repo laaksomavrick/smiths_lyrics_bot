@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # require 'httparty'
 require 'json'
 
@@ -31,7 +33,7 @@ def lambda_handler(event:, context:)
   {
     statusCode: 200,
     body: {
-      message: "Hello World!",
+      message: 'Hello World!'
       # location: response.body
     }.to_json
   }

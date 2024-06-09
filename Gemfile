@@ -1,15 +1,16 @@
-source "https://rubygems.org"
+# frozen_string_literal: true
 
-ruby file: ".ruby-version"
+source 'https://rubygems.org'
 
-gem "json", "~> 2.7"
+ruby file: '.ruby-version'
 
-group :test do
-  gem "test-unit"
-  gem "mocha"
+gem 'json', '~> 2.7'
+
+group :dev, :test do
+  gem 'rspec', '~> 3.13'
 end
 
 group :dev do
-  gem "rubocop", "~> 1.64"
+  gem 'rubocop', '~> 1.64'
+  gem 'rubocop-rspec', require: false
 end
-
