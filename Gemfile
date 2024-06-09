@@ -14,3 +14,5 @@ group :dev do
   gem 'rubocop', '~> 1.64'
   gem 'rubocop-rspec', require: false
 end
+
+gem 'x', '~> 0.14.1'
