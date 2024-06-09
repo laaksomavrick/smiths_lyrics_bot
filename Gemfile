@@ -2,7 +2,7 @@ source "https://rubygems.org"
 
 ruby file: ".ruby-version"
 
-gem "httparty"
+gem "json", "~> 2.7"
 
 group :test do
   gem "test-unit"
@@ -12,3 +12,4 @@ end
 group :dev do
   gem "rubocop", "~> 1.64"
 end
+

@@ -4,7 +4,7 @@ version = 0.1
 
 [default]
 [default.global.parameters]
-stack_name = "smiths_lyrics_bot"
+stack_name = "smiths-lyrics-bot"
 
 [default.build.parameters]
 parallel = true
@@ -17,6 +17,8 @@ capabilities = "CAPABILITY_IAM"
 confirm_changeset = true
 resolve_s3 = true
 resolve_image_repos = true
+region = "ca-central-1"
+tags = "environment=\"prod\" project=\"smiths_lyrics_bot\""
 
 [default.package.parameters]
 resolve_s3 = true
