@@ -9,3 +9,7 @@ deploy:
 .PHONY: format
 format:
 	@bundler exec rubocop -A
+
+.PHONY: test
+test:
+	@bundler exec rspec
