@@ -26,7 +26,8 @@ def lambda_handler(event:, context:)
   logger.info('Starting smiths lyrics bot')
 
   client = Twitter.client(credentials)
-  lyrics_file = File.readlines('lyrics.txt')
+
+  lyrics_file = File.readlines('smiths_lyrics_bot/lyrics.txt')
 
   tweet = Tweet.get_tweet_from_lyrics(lyrics_file)
 
