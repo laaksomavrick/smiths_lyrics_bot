@@ -21,6 +21,11 @@ Resources:
       PackageType: Image
       Architectures:
       - x86_64
+      Events:
+        ScheduledTweetEvent:
+          Type: Schedule
+          Properties:
+            Schedule: cron(0 12 * * ? *)
     Metadata:
       DockerTag: v1
       DockerContext: .

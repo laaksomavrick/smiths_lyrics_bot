@@ -2,14 +2,25 @@
 
 require_relative '../smiths_lyrics_bot/app'
 require 'json'
+require 'rspec'
 
 describe 'lambda_handler' do
-  context 'when given a valid event' do
-    it 'returns hello world' do
-      response = lambda_handler(event: {}, context: {})
-      message = JSON.parse(response[:body])['message']
+  let(:mock_client) { double('MockClient') }
 
-      expect(message).to eq('Hello World!')
+  before do
+    # Mock the Twitter.client method before each example
+    allow(Twitter).to receive(:client).and_return(mock_client)
+    allow(File).to receive(:readlines).and_return(%W[Foo\n Bar\n])
+
+    allow(mock_client).to receive(:post)
+  end
+
+  context 'when called' do
+    it 'sends a tweet' do
+      lambda_handler(event: {}, context: {})
+
+      expect(Twitter).to have_received(:client)
+      expect(mock_client).to have_received(:post).with('tweets', '{"text":"Foo\\nBar\\n"}')
     end
   end
 end
