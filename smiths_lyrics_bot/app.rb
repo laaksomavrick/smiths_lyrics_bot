@@ -1,66 +1,43 @@
 # frozen_string_literal: true
 
 require 'json'
-require 'x'
+require 'logger'
+require_relative 'tweet'
+require_relative 'twitter'
 
-# construct a twitter client (dep on nothing)
-# read a file (dep on file)
-# get the tweet (dep on file)
-# tweet the tweet (dep on twitter client)
+def lambda_handler(event:, context:)
+  logger = Logger.new($stdout)
+  logger.level = Logger::INFO
 
-def twitter_client(api_key:, api_key_secret:, access_token:, access_token_secret:)
-  x_credentials = {
+  api_key = ENV.fetch('API_KEY', nil)
+  api_key_secret = ENV.fetch('API_KEY_SECRET', nil)
+  bearer_token = ENV.fetch('BEARER_TOKEN', nil)
+  access_token = ENV.fetch('ACCESS_TOKEN', nil)
+  access_token_secret = ENV.fetch('ACCESS_TOKEN_SECRET', nil)
+
+  credentials = {
     api_key:,
     api_key_secret:,
     access_token:,
-    access_token_secret:
+    access_token_secret:,
+    bearer_token:
   }
-  X::Client.new(**x_credentials)
-end
 
-def lyrics(lines)
-  lyric_blocks = lines.each_with_object([[]]) do |line, blocks|
-    if line == "\n"
-      blocks << []
-    else
-      fmt = line.downcase.capitalize
-      blocks.last << fmt
-    end
-  end
+  logger.info('Starting smiths lyrics bot')
 
-  lyric_blocks.map! do |block|
-    combined = block.join
-    if combined.length > 280
-      last_newline = combined[0...280].rindex("\n")
-      if last_newline
-        combined[0...last_newline]
-      else
-        combined[0...280]
-      end
-    else
-      combined
-    end
-  end
+  client = Twitter.client(credentials)
+  lyrics_file = File.readlines('lyrics.txt')
 
-  lyric_blocks
-end
+  tweet = Tweet.get_tweet_from_lyrics(lyrics_file)
 
-def sample_lyric(lyrics)
-  lyrics.sample
-end
+  logger.info("Found tweet #{tweet}")
 
-def lambda_handler(event:, context:)
+  payload = { text: tweet }.to_json
+  response = client.post('tweets', payload)
+
+  logger.info("Successfully tweeted #{response}")
+
   {
-    statusCode: 200,
-    body: {
-      message: 'Hello World!'
-      # location: response.body
-    }.to_json
+    statusCode: 200
   }
 end
-
-lines = File.readlines('lyrics.txt')
-stanzas = lyrics(lines)
-tweet = stanzas.sample
-
-p tweet
